@@ -24,53 +24,42 @@ public class BookController {
     public BookController(LibraryService library) {
         this.library = library;
     }
+
     @PostMapping("/addBook")
-    public ResponseEntity<?> addBook(@RequestBody Book book) throws DuplicateBookException{
-            String response = library.addBook(book);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    public ResponseEntity<?> addBook(@RequestBody Book book) throws DuplicateBookException {
+        String response = library.addBook(book);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/deleteById")
-    public ResponseEntity<?> deleteBookById(@RequestParam("id") int id) {
-        try {
-            String response = library.removeBook(id);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        } catch (BookNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> deleteBookById(@RequestParam("id") int id) throws BookNotFoundException {
+        String response = library.removeBook(id);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+
     }
 
     @DeleteMapping("/deleteByTitle")
-    public ResponseEntity<?> deleteBookByTitle(@RequestParam("title") String title) {
-        try {
-            String response = library.removeBook(title);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        } catch (BookNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> deleteBookByTitle(@RequestParam("title") String title) throws BookNotFoundException {
+        String response = library.removeBook(title);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+
     }
 
     @GetMapping("/search")
     public ResponseEntity<?> searchBooks(@RequestParam(defaultValue = "0") int year,
-            @RequestParam(defaultValue = "") String title, @RequestParam(defaultValue = "") String author) {
-        try {
-            List<Book> list = library.search(author, title, year);
-            System.out.println(list);
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (BookNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+            @RequestParam(defaultValue = "") String title, @RequestParam(defaultValue = "") String author)
+            throws BookNotFoundException {
+        List<Book> list = library.search(author, title, year);
+        System.out.println(list);
+        return new ResponseEntity<>(list, HttpStatus.OK);
 
     }
 
     @GetMapping("/books")
-    public ResponseEntity<?> getBooks() {
-        try {
-            List<Book> list = library.display();
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (BookNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> getBooks() throws BookNotFoundException {
+        List<Book> list = library.display();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+
     }
-   
+
 }

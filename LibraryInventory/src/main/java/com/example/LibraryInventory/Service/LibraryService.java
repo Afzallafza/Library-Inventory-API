@@ -11,6 +11,7 @@ import com.example.LibraryInventory.Exception.DuplicateBookException;
 import com.example.LibraryInventory.Model.Book;
 import com.example.LibraryInventory.Factory.BookFactory;
 import com.example.LibraryInventory.Factory.BookFactoryImpl;
+
 @Service
 public class LibraryService {
     private List<Book> bookCollection = new ArrayList<>();
@@ -25,7 +26,7 @@ public class LibraryService {
         if (flag) {
             throw new DuplicateBookException("Book with Id: " + book.getId() + " already Exists!!!");
         } else {
-            
+
             bookCollection.add(book);
             String res = "( " + book + " )" + " Is added to the Collection!!!";
             return res;
