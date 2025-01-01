@@ -126,6 +126,3 @@ This API uses global exception handling with `@ControllerAdvice` to handle the f
 
 5. The API will be available at `http://localhost:8080`.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
