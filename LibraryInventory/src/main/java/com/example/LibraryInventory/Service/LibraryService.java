@@ -4,26 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.example.LibraryInventory.Exception.BookNotFoundException;
 import com.example.LibraryInventory.Exception.DuplicateBookException;
 import com.example.LibraryInventory.Model.Book;
 import com.example.LibraryInventory.Factory.BookFactory;
 import com.example.LibraryInventory.Factory.BookFactoryImpl;
-
+@Service
 public class LibraryService {
-    public static LibraryService LibraryInstance;
     private List<Book> bookCollection = new ArrayList<>();
-
-    private LibraryService() {
-
-    }
-
-    public static LibraryService getInstance() {
-        if (LibraryInstance == null) {
-            LibraryInstance = new LibraryService();
-        }
-        return LibraryInstance;
-    }
 
     public String addBook(Book book) throws DuplicateBookException {
         boolean flag = false;
@@ -36,7 +26,7 @@ public class LibraryService {
             throw new DuplicateBookException("Book with Id: " + book.getId() + " already Exists!!!");
         } else {
             
-            LibraryInstance.bookCollection.add(book);
+            bookCollection.add(book);
             String res = "( " + book + " )" + " Is added to the Collection!!!";
             return res;
         }

@@ -2,6 +2,7 @@ package com.example.LibraryInventory.Controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,17 +18,16 @@ import com.example.LibraryInventory.Service.LibraryService;
 
 @RestController
 public class BookController {
-    LibraryService library = LibraryService.getInstance();
+    LibraryService library;
 
+    @Autowired
+    public BookController(LibraryService library) {
+        this.library = library;
+    }
     @PostMapping("/addBook")
-    public ResponseEntity<?> addBook(@RequestBody Book book) {
-        try {
+    public ResponseEntity<?> addBook(@RequestBody Book book) throws DuplicateBookException{
             String response = library.addBook(book);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        } catch (DuplicateBookException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-
     }
 
     @DeleteMapping("/deleteById")
@@ -72,4 +72,5 @@ public class BookController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+   
 }
