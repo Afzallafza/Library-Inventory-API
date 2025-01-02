@@ -15,7 +15,7 @@ public class ShutdownController {
     public String exitApplication() {
         Thread shutdownThread = new Thread(() -> {
             try {
-                Thread.sleep(1000); 
+                Thread.sleep(30000); 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
